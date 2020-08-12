@@ -1,0 +1,15 @@
+{
+  "presets": ["@babel/preset-env"],
+  "plugins": [["@babel/transform-runtime"]],
+  "env": {
+    "debug": {
+      "sourceMaps": "inline",
+      "retainLines": true
+    },
+    "test": {
+      "sourceMaps": "inline",
+      "retainLines": true,
+      "plugins": ["istanbul"]
+    }
+  }
+}

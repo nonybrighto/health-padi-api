@@ -1,0 +1,10 @@
+node_modules
+dist
+uploads
+.nyc_output
+coverage
+.env
+raw_queries.sql
+src/config/env.json
+src/config/test.json
+morgan.log
