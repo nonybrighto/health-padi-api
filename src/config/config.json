@@ -9,7 +9,7 @@
   "test": {
     "username": "nonybrighto",
     "password": "tested",
-    "database": "healthpadi",
+    "database": "healthpadi_test",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },

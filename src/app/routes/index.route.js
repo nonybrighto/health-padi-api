@@ -2,6 +2,7 @@ import express from 'express';
 import usersRoutes from './users.route';
 import userRoutes from './user.route';
 import authRoutes from './auth.route';
+import newsRoutes from './news.route';
 
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
@@ -37,6 +38,7 @@ const options = {
 router.use('/users', usersRoutes);
 router.use('/user', userRoutes);
 router.use('/auth', authRoutes);
+router.use('/news', newsRoutes);
 const specs = swaggerJsdoc(options);
 router.use('/docs', swaggerUi.serve);
 router.get(

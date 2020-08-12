@@ -25,7 +25,10 @@ nconf.defaults({
   'email-password': 'the password',
   'firebase-private-key': '',
   'firebase-client-email': '',
-  'firebase-database-url': ''
+  'firebase-database-url': '',
+  'watson-discovery-api-key': 'no key',
+  'watson-discovery-version': '2019-04-30',
+  'watson-discovery-url': 'no url'
 });
 
 export default nconf;
