@@ -23,12 +23,17 @@ nconf.defaults({
   'email-host': 'themeial',
   'no-reply-email': 'themeial',
   'email-password': 'the password',
+  'firebase-project-id': '',
   'firebase-private-key': '',
   'firebase-client-email': '',
   'firebase-database-url': '',
   'watson-discovery-api-key': 'no key',
   'watson-discovery-version': '2019-04-30',
-  'watson-discovery-url': 'no url'
+  'watson-discovery-url': 'no url',
+  'watson-assistant-version': '',
+  'watson-assistant-api-key': 'no key',
+  'watson-assistant-discovery': '',
+  'watson-assistant-id': 'id'
 });
 
 export default nconf;
