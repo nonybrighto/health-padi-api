@@ -4,6 +4,8 @@ import userRoutes from './user.route';
 import authRoutes from './auth.route';
 import newsRoutes from './news.route';
 import chatsRoutes from './chats.route';
+import factsRoutes from './facts.route';
+import factCategoriesRoutes from './fact-categories.route';
 
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
@@ -41,6 +43,8 @@ router.use('/user', userRoutes);
 router.use('/auth', authRoutes);
 router.use('/news', newsRoutes);
 router.use('/chats', chatsRoutes);
+router.use('/facts', factsRoutes);
+router.use('/fact-categories', factCategoriesRoutes);
 const specs = swaggerJsdoc(options);
 router.use('/docs', swaggerUi.serve);
 router.get(
