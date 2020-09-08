@@ -46,7 +46,7 @@ async function getNewsUpdates(req, res, next) {
     const queryParams = {
       environmentId: 'system',
       collectionId: 'news-en',
-      filter: `country:NG,enriched_text.categories.label:health,crawl_date>${newsUpdateDateUTCString}`
+      filter: `enriched_text.categories.label:health,crawl_date>${newsUpdateDateUTCString}`
     };
 
     const response = await discoveryClient.query(queryParams);
