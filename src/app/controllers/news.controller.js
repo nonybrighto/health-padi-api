@@ -28,62 +28,49 @@ async function getAllNews(req, res, next) {
 }
 async function getNewsUpdates(req, res, next) {
   try {
-    // const newsUpdateSetting = await Settings.findOne({
-    //   where: { key: 'last-news-update' }
-    // });
-    const newsUpdateDateUTCString = new Date(
-      new Date().getTime() - 1 * 24 * 60 * 60 * 1000
-    ).toISOString(); // one day ago
-    // const newsUpdateDateUTCString = newsUpdateSetting
-    //   ? new Date(newsUpdateSetting.value).toISOString()
-    //   : new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000).toISOString(); // one day ago
+    const newsUpdateSetting = await Settings.findOne({
+      where: { key: 'last-news-update' }
+    });
+    const newsUpdateDateUTCString = newsUpdateSetting
+      ? new Date(newsUpdateSetting.value).toISOString()
+      : new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000).toISOString(); // one day ago
 
-    await News.create({
-      title: 'hello fro the world',
-      host: 'this is the host file',
-      sourceUrl: 'sssss',
-      imageUrl: 'sssss',
-      summary: 'ssssssssssssss',
-      publishedAt: new Date(),
-      crawledAt: new Date()
+    const discoveryClient = new DiscoveryV1({
+      authenticator: new IamAuthenticator({
+        apikey: config.get('watson-discovery-api-key')
+      }),
+      version: config.get('watson-discovery-version'),
+      url: config.get('watson-discovery-url')
     });
 
-    // const discoveryClient = new DiscoveryV1({
-    //   authenticator: new IamAuthenticator({
-    //     apikey: config.get('watson-discovery-api-key')
-    //   }),
-    //   version: config.get('watson-discovery-version'),
-    //   url: config.get('watson-discovery-url')
-    // });
+    const queryParams = {
+      environmentId: 'system',
+      collectionId: 'news-en',
+      filter: `enriched_text.categories.label:health,crawl_date>${newsUpdateDateUTCString}`
+    };
 
-    // const queryParams = {
-    //   environmentId: 'system',
-    //   collectionId: 'news-en',
-    //   filter: `enriched_text.categories.label:health,crawl_date>${newsUpdateDateUTCString}`
-    // };
+    const response = await discoveryClient.query(queryParams);
 
-    // const response = await discoveryClient.query(queryParams);
+    await Promise.all(
+      response.result.results.map(async news => {
+        await News.create({
+          title: news.title,
+          host: news.host,
+          sourceUrl: news.url,
+          imageUrl: news.main_image_url,
+          summary: news.text,
+          publishedAt: news.publication_date,
+          crawledAt: news.crawl_date
+        });
+      })
+    );
 
-    // await Promise.all(
-    //   response.result.results.map(async news => {
-    //     await News.create({
-    //       title: news.title,
-    //       host: news.host,
-    //       sourceUrl: news.url,
-    //       imageUrl: news.main_image_url,
-    //       summary: news.text,
-    //       publishedAt: news.publication_date,
-    //       crawledAt: news.crawl_date
-    //     });
-    //   })
-    // );
-
-    // await Settings.upsert({
-    //   key: 'last-news-update',
-    //   value: new Date().toISOString()
-    // });
+    await Settings.upsert({
+      key: 'last-news-update',
+      value: new Date().toISOString()
+    });
     // return res.sendStatus(httpStatus.OK);
-    return res.status(httpStatus.OK).send({ title: 'done' });
+    return res.status(httpStatus.OK).send(response);
   } catch (error) {
     return next(internalError('update news', error));
   }
