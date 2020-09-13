@@ -30,10 +30,8 @@ nconf.defaults({
   'watson-discovery-api-key': 'no key',
   'watson-discovery-version': '2019-04-30',
   'watson-discovery-url': 'no url',
-  'watson-assistant-version': '',
-  'watson-assistant-api-key': 'no key',
-  'watson-assistant-discovery': '',
-  'watson-assistant-id': 'id'
+  'df-private-key': '',
+  'df-client-email': ''
 });
 
 export default nconf;
