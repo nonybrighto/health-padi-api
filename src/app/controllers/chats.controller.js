@@ -52,7 +52,7 @@ async function sendBotChat(req, res, next) {
       .add({
         deviceIdentifier,
         isBotMessage: true,
-        content: dialogFlowResponse.fulfillmentText,
+        content: dialogFlowResponse[0].queryResult.fulfillmentText,
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
     return res.status(httpStatus.OK).send(sessionId);
